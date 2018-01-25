@@ -1,0 +1,54 @@
+---
+
+- name: Set the hostname
+  hostname:
+    name: "{{ hostname }}.{{ domain }}"
+
+- name: Set timeout and attempts in /etc/resolv.conf
+  lineinfile:
+    path: /etc/resolv.conf
+    state: present
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^options attempts:', line: 'options attempts: 2' }
+    - { regexp: '^options timeout:', line: 'options timeout: 1' }
+
+- name: Ensure /etc/sysconfig/ntpd exists
+  file:
+    path: /etc/sysconfig/ntpd
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Prevent ntp from syncing backwards
+  lineinfile:
+    path: /etc/sysconfig/ntpd
+    regexp: '^OPTIONS='
+    line: 'OPTIONS="-x -g"'
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart ntp
+
+- name: Allow ssh through the firewall
+  firewalld:
+    service: ssh
+    permanent: true
+    state: enabled
+    zone: public
+
+- name: Allow SQL*Net through the firewall
+  firewalld:
+    port: 1521/tcp
+    permanent: true
+    state: enabled
+    zone: public
+
+- name: Allow EM through the firewall
+  firewalld:
+    port: 5500/tcp
+    permanent: true
+    state: enabled
+    zone: public

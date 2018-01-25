@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: Bob Winter
+  description: A role to prepare for an Oracle Enterprise Database install
+  company: SPR
+  issue_tracker_url: http://jira01.nifs.smil.mil:8080/secure/RapidBoard.jspa?rapidView=3&projectKey=MA
+  license: TBD
+  min_ansible_version: 2.0
+  platforms:
+  - name: EL
+    versions:
+    - 7
+dependencies: []
