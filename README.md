@@ -1,4 +1,4 @@
-# oracledb_network_config
+# oracledb_network
 Network prerequisites for Oracle 12c database installation.
 
 * hostnamectl set-hostname
