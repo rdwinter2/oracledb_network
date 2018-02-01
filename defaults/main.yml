@@ -17,3 +17,4 @@ ntp:
   - 1.pool.ntp.org
   - 2.pool.ntp.org
   - 3.pool.ntp.org
+search: "{{ [domain,parent_domain] | join(' ') if include_subdomain else parent_domain }}"

@@ -1,8 +1,51 @@
 ---
 
+* /etc/resolv.conf
+* /etc/sysconfig/network
+* Public Network
+    * ifcfg
+    * DNS
+* SCAN address in DNS
+* Virtual IP address in DNS
+* Private Network
+    * ifcfg
+    * Jumbo frames
+    * multicast
+    * Reverse path filtering
+* /etc/hosts
+* Network Time Protocol
+    * disable chrony
+    * install ntp
+    * /etc/ntp.conf
+    * /etc/sysconfig/ntpd
+    * VMware disable time sync
+* Firewall
+    * Public network = public zone
+    * Private network = trusted zone
+* ssh equivalency
+
+# hostnamectl set-hostname
 - name: Set the hostname
   hostname:
     name: "{{ hostname }}.{{ domain }}"
+
+- name: Set nameserver(s) in /etc/resolv.conf
+  lineinfile:
+    path: /etc/resolv.conf
+    state: present
+    regexp: "^nameserver {{ item }}"
+    line: "nameserver {{ item }}"
+    backrefs: yes
+  with_items: dns
+  
+- name: Set search in /etc/resolv.conf
+  lineinfile:
+    path: /etc/resolv.conf
+    state: present
+    regexp: "^search {{ item }}"
+    line: "search {{ item }}"
+    backrefs: yes
+  with_items: search
 
 - name: Set timeout and attempts in /etc/resolv.conf
   lineinfile:
@@ -10,6 +53,7 @@
     state: present
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
+    backrefs: yes
   with_items:
     - { regexp: '^options attempts:', line: 'options attempts: 2' }
     - { regexp: '^options timeout:', line: 'options timeout: 1' }

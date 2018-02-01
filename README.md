@@ -16,6 +16,8 @@ Network prerequisites for Oracle 12c database installation.
     * Reverse path filtering
 * /etc/hosts
 * Network Time Protocol
+    * disable chrony
+    * install ntp
     * /etc/ntp.conf
     * /etc/sysconfig/ntpd
     * VMware disable time sync
