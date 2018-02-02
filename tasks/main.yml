@@ -24,6 +24,11 @@
     * Private network = trusted zone
 * ssh equivalency
 
+# Ensure SElinux is set to enforcing
+- selinux:
+    policy: targeted
+    state: enforcing
+    
 # hostnamectl set-hostname
 - name: Set the hostname
   hostname:
