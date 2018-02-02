@@ -1,6 +1,20 @@
 ---
 
-hostname:
-subdomain:
-parent_domain:
-domain:
+hostname: hostname
+include_subdomain: true
+subdomain: db
+parent_domain: example.com
+domain: "{{ [subdomain,parent_domain] | join('.') if include_subdomain else parent_domain }}"
+fqdn: "{{ hostname }}.{{ domain }}"
+
+ipaddr: 192.168.0.100
+gateway: 192.168.0.1
+dns: 
+  - 192.168.0.10
+  - 192.168.0.11
+ntp:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
+search: "{{ [domain,parent_domain] | join(' ') if include_subdomain else parent_domain }}"
