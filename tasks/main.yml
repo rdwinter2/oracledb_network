@@ -28,6 +28,7 @@
 - selinux:
     policy: targeted
     state: enforcing
+  register: selinux
     
 # hostnamectl set-hostname
 - name: Set the hostname
